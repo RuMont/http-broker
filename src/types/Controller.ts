@@ -13,7 +13,7 @@ export default abstract class Controller {
           this.router[route.method](route.path, middleware);
         }
 
-        this.router[route.method](route.path, route.handler);
+        this.router[route.method](route.path, route.handler.bind(this));
       } catch (err) {
         throw `Error in src/types/Controller.ts: ${err}`;
       }

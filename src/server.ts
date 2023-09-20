@@ -2,7 +2,8 @@ import express from "express";
 import cors from 'cors';
 import bodyParser from "body-parser";
 import Controller from "./types/Controller";
-import Container, { Injection } from "./injections/container";
+import Container from "./injections/container";
+import { Classname } from "./types/Classname";
 
 type InitializeOpts = {
   port: number
@@ -18,7 +19,8 @@ export default class Server {
     this.express = express();
     this.express.use(cors());
     this.express.use(bodyParser.json());
-    this.express.use(bodyParser.urlencoded({extended: false}))
+    this.express.use(bodyParser.urlencoded({extended: false}));
+    Container.create();
   }
 
   public static createInstance(options: InitializeOpts) {
@@ -26,15 +28,15 @@ export default class Server {
     return this;
   }
 
-  public static loadControllers(controllers: Controller[]) {
+  public static loadControllers(...controllers: Classname<Controller>[]) {
     controllers.forEach((controller) => {
-      this.instance.express.use(controller.path, controller.setRoutes());
+      const controllerInstance = new controller();
+      this.instance.express.use(controllerInstance.path, controllerInstance.setRoutes());
     });
     return this;
   }
 
-  public static injectServices(injectables: object[]) {
-    Container.create();
+  public static injectServices(...injectables: Classname<unknown>[]) {
     injectables.forEach(injectable => Container.add(injectable));
     return this;
   }

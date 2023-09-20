@@ -31,7 +31,7 @@ export default class MessageService {
   }
 
   private watchConnection(req: Request, res: Response, id: Client['id']) {
-    res.write(`data: ${JSON.stringify(this.messages)}`);
+    res.write('');
     req.on('close', () => this.unregisterClient(id));
   }
 

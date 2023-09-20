@@ -15,25 +15,28 @@ export default class MessageController extends Controller {
     {
       path: '/subscribe',
       method: 'get',
-      handler: this.subscribe
+      handler: this.subscribe,
     },
     {
       path: '/publish',
       method: 'post',
-      handler: this.publish
+      handler: this.publish,
     }
   ];
 
+  private readonly messageService: MessageService;
+
   constructor() {
     super();
+    this.messageService = Container.get(MessageService);
   }
-
+  
   public getStatus(
     req: Request,
     res: Response,
     next: NextFunction
-  ) {
-    res.json(Container.get<MessageService>('MessageService').status());
+    ) {
+    res.json(this.messageService.status());
   }
 
   public subscribe(
@@ -41,13 +44,12 @@ export default class MessageController extends Controller {
     res: Response,
     next: NextFunction
   ) {
-    const headers = {
+    res.writeHead(200, {
       'Content-Type': 'text/event-stream',
       'Connection': 'keep-alive',
       'Cache-Control': 'no-cache'
-    };
-    res.writeHead(200, headers);
-    Container.get<MessageService>('MessageService').subscribe(req, res);
+    });
+    this.messageService.subscribe(req, res);
   }
 
   public publish(
@@ -55,7 +57,7 @@ export default class MessageController extends Controller {
     res: Response,
     next: NextFunction
   ) {
-    const sentMessage = Container.get<MessageService>('MessageService').publish(req);
+    const sentMessage = this.messageService.publish(req);
     res.json(sentMessage);
   }
 }

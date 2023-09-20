@@ -5,12 +5,12 @@ import MessageService from "./src/services/MessageService";
 try {
     Server
         .createInstance({ port: 3000 })
-        .injectServices([
-          new MessageService()
-        ])
-        .loadControllers([
-          new MessageController(),
-        ])
+        .injectServices(
+          MessageService
+        )
+        .loadControllers(
+          MessageController,
+        )
         .listen();
 } catch (err) {
     console.log(err);
