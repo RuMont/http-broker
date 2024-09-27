@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import Controller from "./types/Controller";
 import Container from "./injections/container";
 import { Classname } from "./types/Classname";
+import path from 'node:path';
 
 type InitializeOpts = {
   port: number
@@ -17,9 +18,15 @@ export default class Server {
   private constructor({ port }: InitializeOpts) {
     this.port = port;
     this.express = express();
+    // Cors necesario para que los navegadores no bloqueen las peticiones
     this.express.use(cors());
+    // Bodyparser necesario para poder leer jsons en peticiones
     this.express.use(bodyParser.json());
     this.express.use(bodyParser.urlencoded({extended: false}));
+    // Para que nuestro servidor devuelva vistas necesitamos decirle donde están
+    this.express.use(express.static(path.join(__dirname + '/views')));
+    this.express.set('view engine', 'ejs');
+    // Contenedor de inyección de dependencias
     Container.create();
   }
 

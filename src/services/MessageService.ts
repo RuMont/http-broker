@@ -28,6 +28,7 @@ export default class MessageService {
       id,
       response: res
     });
+    console.log(`${id} Connection open`);
   }
 
   private watchConnection(req: Request, res: Response, id: Client['id']) {

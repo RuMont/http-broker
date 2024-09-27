@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HTTP Broker</title>
+    <link rel="stylesheet" href="./index.css" />
+    <script defer src="index.js"></script>
+  </head>
+
+  <body>
+    <nav>
+      <h1>HTTP Broker</h1>
+      <span id="origin"></span>
+    </nav>
+
+    <div class="container">
+      <section>
+        <div>
+          <h2>Status</h2>
+          <p class="text-subtle">Here you will see how many clients are listening to this broker</p>
+        </div>
+        <div>
+          <div id="client-terminal" class="terminal"></div>
+        </div>
+      </section>
+
+      <section>
+        <div>
+          <h2>Subscribe</h2>
+          <p class="text-subtle">Click on the subscribe to button to start receiving messages</p>
+        </div>
+        <div class="subscribe">
+          <div class="actions">
+            <button style="max-width: 100px;" onclick="unsubscribe()">Unsubscribe</button>
+            <button style="max-width: 100px;" onclick="subscribe()">Subscribe</button>
+          </div>
+          <div id="subscribe-terminal" class="terminal"></div>
+        </div>
+      </section>
+
+      <section>
+        <div>
+          <h2>Publish</h2>
+          <p class="text-subtle">
+            Send a message to the broker and those subscribed to this broker
+            will receive the message
+          </p>
+        </div>
+        <div>
+          <textarea id="message" placeholder="Enter a message..."></textarea>
+          <button onclick="publish()">Send</button>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>

@@ -1,3 +1,4 @@
+import MainController from "./src/controllers/MainController";
 import MessageController from "./src/controllers/MessageController";
 import Server from "./src/server";
 import MessageService from "./src/services/MessageService";
@@ -9,6 +10,7 @@ try {
           MessageService
         )
         .loadControllers(
+          MainController,
           MessageController,
         )
         .listen();
