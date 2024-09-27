@@ -2,6 +2,8 @@
   --bg-color: #232323;
   --txt-color: #dfdfdf;
   --primary-color: #0089e4;
+  --success: #00be00;
+  --danger: #ff0000;
 }
 
 * {
@@ -87,6 +89,19 @@ textarea {
 .actions {
   display: flex;
   gap: 8px;
+  align-items: center;
+}
+
+#indicator {
+  --color: var(--danger);
+  width: 20px;
+  height: 20px;
+  background-color: var(--color);
+  border-radius: 50%;
+  border: 2px solid hsl(from var(--color) h s calc(l - 16));
+  &.active {
+    --color: var(--success);
+  }
 }
 
 .terminal {

@@ -1,4 +1,5 @@
 const ORIGIN = location.origin;
+const subscriptionIndicatorEl = document.getElementById("indicator");
 let source = null;
 
 document.getElementById("origin").textContent = ORIGIN;
@@ -15,9 +16,16 @@ async function subscribe() {
     document.getElementById(
       "subscribe-terminal"
     ).innerHTML += `<p>${event.data}</p>`;
+    getStatus();
   };
-  eventSource.onopen = () => getStatus();
-  eventSource.onerror = () => getStatus();
+  eventSource.onopen = () => {
+    getStatus();
+    subscriptionIndicatorEl.classList.add("active");
+  };
+  eventSource.onerror = () => {
+    getStatus();
+    subscriptionIndicatorEl.classList.remove("active");
+  };
   source = eventSource;
 }
 
@@ -25,6 +33,7 @@ async function unsubscribe() {
   source.close();
   source = null;
   getStatus();
+  subscriptionIndicatorEl.classList.remove("active");
 }
 
 async function publish() {
